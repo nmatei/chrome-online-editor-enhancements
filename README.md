@@ -9,6 +9,7 @@ Some enhancements for **Online Editor** in **Trados** for https://languagecloud.
   - [x] `Right Click` on any segment to open context menu with:
     - [x] ✨ Rephrase segment *(using [pegasus_paraphrase](https://huggingface.co/tuner007/pegasus_paraphrase))*
     - [x] 📩 Save as HTML
+    - [x] Open *.html (resulted) and you can Print (as PDF) 
 
 ## ⚙ Setup Plugin as Developer
 
