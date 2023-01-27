@@ -1,6 +1,6 @@
 # Online Editor enhancements
 
-Some enhancements **Online Editor** in **Trados** for https://languagecloud.sdl.com/lc
+Some enhancements for **Online Editor** in **Trados** for https://languagecloud.sdl.com/lc
 
 ## 💠 Features & Usage
 
