@@ -35,7 +35,12 @@
   color: var(--baseColor);
   font-size: 18px;
   font-weight: bold;
-  padding: 0;
+  padding: 0 10px 0 0;
+}
+.context-menu .menu-notes {
+  text-align: right;
+  font-style: italic;
+  padding: 5px 10px;
 }
 
 .context-menu ul.grid-items {

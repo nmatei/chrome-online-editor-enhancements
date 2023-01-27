@@ -40,25 +40,33 @@ function showContextMenu(segment, e) {
 
 async function optimizeHandler(segment, text) {
   const response = await pegasusQuery([text]);
-  // console.warn("response", response);
-
-  // add ue-selectable to allow selection
-  const items = [
+  let items = [
     `<div class="tooltip-toolbar">
-        <h1>✨ Rephrased segment</h1>
-        <span data-key="fill" class="fill"></span>
-        <button type="button" class="action-btn" data-key="close">✖</button>
-      </div>`,
-    "<ul class='grid-items'>",
-    ...response.map(
-      (value, i) => `<li class="list-item" data-idx="${i}" data-qtip="Click to copy" data-anchor="bottom" >
-        <i class="x-fa fa-copy"></i> 
-        ${value.generated_text}
-    </li>`
-    ),
-    "</ul>",
-    "<div style='font-style: italic'>* Rephrased copied to clipboard</div>"
+       <h1>✨ Rephrased segment</h1>
+       <span data-key="fill" class="fill"></span>
+       <button type="button" class="action-btn" data-key="close">✖</button>
+     </div>`
   ];
+
+  if (!response || (!response.map && !response[0])) {
+    console.warn("could not map response", response);
+    items.push("🔺 There was an error, and could not find results. Try again later.");
+  } else {
+    // add ue-selectable to allow selection
+    items.push(
+      "<ul class='grid-items'>",
+      ...response.map(
+        (value, i) => `<li class="list-item" data-idx="${i}" data-qtip="Click to copy" data-anchor="bottom" >
+          <i class="x-fa fa-copy"></i> 
+          ${value.generated_text}
+        </li>`
+      ),
+      "</ul>",
+      "<div class='menu-notes'>* Rephrased copied to clipboard</div>"
+    );
+
+    copyToClipboard(response[0].generated_text);
+  }
 
   const tip = getTooltip(items, "arrow-down");
   showBy(tip, segment, [10, -6], "top");
@@ -78,8 +86,7 @@ async function optimizeHandler(segment, text) {
     document.body.removeChild(tip);
   });
 
-  tip.querySelector(".list-item").addEventListener("click", e => {
-    // tip.addEventListener("click", e => {
+  tip.addEventListener("click", e => {
     if (e.target.matches(".list-item")) {
       e.preventDefault();
       e.stopPropagation();
@@ -87,6 +94,4 @@ async function optimizeHandler(segment, text) {
       copyToClipboard(text);
     }
   });
-
-  copyToClipboard(response[0].generated_text);
 }
