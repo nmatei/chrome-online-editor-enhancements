@@ -2,7 +2,7 @@ let sources = [];
 let targets = [];
 let rows = [];
 
-function startPrint() {
+async function startPrint() {
   const firstRow = getSegmentByIndex(1);
   if (firstRow) {
     firstRow.scrollIntoView();
@@ -14,7 +14,13 @@ function startPrint() {
 
   sources = getSegments("source");
   targets = getSegments("target");
-  rows = sources.map((s, i) => rowHtml(s.getAttribute("data-segment-index"), s.innerText, targets[i].innerText, s.firstChild.getAttribute("style")));
+  rows = sources.map((s, i) => {
+    const index = s.getAttribute("data-segment-index");
+    const source = s.innerText;
+    const target = targets[i].innerText;
+    const style = s.firstChild.getAttribute("style");
+    return rowHtml(index, source, target, style);
+  });
 
   loadNextPage();
 }
