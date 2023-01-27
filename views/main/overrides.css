@@ -1,0 +1,14 @@
+#cleanup-element {
+  position: fixed;
+  width: 1000px;
+  left: -2000px;
+  top: 0;
+  z-index: 0;
+}
+#cleanup-element .ue-tag {
+  display: none;
+}
+#cleanup-element .ue-whitespaces[data-type="tab"] {
+  /* TODO how to pring tabs? */
+  /*display: none;*/
+}

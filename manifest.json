@@ -1,0 +1,33 @@
+{
+  "name": "Optimize source text for translation in RWS Online Editor",
+  "version": "1.0.0",
+  "description": "Optimize source text for translation/MT by using language models",
+  "manifest_version": 3,
+  "author": "Matei Nicolae, Florin Macicasan",
+  "background": {
+    "service_worker": "views/background.js"
+  },
+  "action": {},
+  "permissions": ["activeTab", "storage", "clipboardWrite"],
+  "host_permissions": ["https://languagecloud.sdl.com/lc/t/*/projects/task/*/inbox", "https://ci-languagecloud.sdl.com/lc/t/*/projects/task/*/inbox"],
+  "content_scripts": [
+    {
+      "matches": ["https://languagecloud.sdl.com/lc/t/*/projects/task/*/inbox", "https://ci-languagecloud.sdl.com/lc/t/*/projects/task/*/inbox"],
+      "js": [
+        "views/common/utilities.js",
+        "views/tooltip/tooltip.js",
+        "views/editor/selectors.js",
+        "views/main/print.js",
+        "views/main/runtime-messages.js",
+        "views/main/pegasus.js",
+        "views/main/index.js"
+      ],
+      "css": ["views/tooltip/tooltip.css", "views/main/overrides.css"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}
