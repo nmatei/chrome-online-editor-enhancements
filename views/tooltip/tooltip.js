@@ -27,9 +27,15 @@ function createContextMenu(id = "context-menu") {
   menu.className = "context-menu";
   document.body.appendChild(menu);
 
-  menu.addEventListener("click", () => {
-    document.body.removeChild(menu);
-  });
+  function bodyClick() {
+    document.body.removeEventListener("click", bodyClick);
+    setTimeout(() => {
+      document.body.removeChild(menu);
+    }, 10);
+  }
+
+  document.body.addEventListener("click", bodyClick);
+  menu.addEventListener("click", bodyClick);
 
   return menu;
 }
@@ -51,7 +57,7 @@ function getContextMenu(items) {
     e.preventDefault();
     if (e.target.matches(".action-btn")) {
       // console.warn("action", e.target.dataset.idx);
-      const authorization = e.target.dataset.authorization;
+      // const authorization = e.target.dataset.authorization;
       // console.warn("authorization", authorization);
       e.target.removeAttribute("data-authorization");
 

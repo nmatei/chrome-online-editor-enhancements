@@ -6,6 +6,10 @@ function startPrint() {
   const firstRow = getSegmentByIndex(1);
   if (firstRow) {
     firstRow.scrollIntoView();
+  } else {
+    // TODO not top yet...  but better
+    console.warn("scroll top");
+    document.querySelector(".ue-editable").scrollIntoView();
   }
 
   sources = getSegments("source");
@@ -36,7 +40,7 @@ async function loadNextPage() {
   const pageRows = sources.map((s, i) => rowHtml(s.getAttribute("data-segment-index"), s.innerText, targets[i].innerText, s.firstChild.getAttribute("style")));
   rows = rows.concat(pageRows);
 
-  console.warn("pageRows", pageRows.length);
+  //console.warn("pageRows", pageRows.length);
 
   if (pageRows.length === 0) {
     docReady(rows);
@@ -66,7 +70,7 @@ function increaseFont(html) {
  * @param rows
  */
 function docReady(rows) {
-  const docTitle = document.querySelectorAll(".sdl-navbar .x-toolbar-text")[1].innerText;
+  const docTitle = getDocTitle();
   let html = getPrintPage(rows, docTitle);
   html = increaseFont(html);
 

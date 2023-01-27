@@ -1,3 +1,7 @@
+function getDocTitle() {
+  return document.querySelectorAll(".sdl-navbar .x-toolbar-text")[1].innerText;
+}
+
 function getSegmentByIndex(index, type = "source") {
   return document.querySelector(`div[data-segment-type="${type}"][data-segment-index="${index}"]`);
 }
