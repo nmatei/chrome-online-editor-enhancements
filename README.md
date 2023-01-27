@@ -7,7 +7,7 @@ Some enhancements **Online Editor** in **Trados** for https://languagecloud.sdl.
 - [x] Translate a file using Language Cloud
   - [x] Open it in Online Editor
   - [x] `Right Click` on any segment to open context menu with:
-    - [x] ✨ Rephrase segment
+    - [x] ✨ Rephrase segment *(using [pegasus_paraphrase](https://huggingface.co/tuner007/pegasus_paraphrase))*
     - [x] 📩 Save as HTML
 
 ## ⚙ Setup Plugin as Developer
