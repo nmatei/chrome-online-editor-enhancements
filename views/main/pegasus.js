@@ -8,7 +8,8 @@ async function pegasusQuery(inputs = []) {
   const response = await fetch("https://api-inference.huggingface.co/models/tuner007/pegasus_paraphrase", {
     method: "POST",
     headers: {
-      Authorization: "Bearer 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"
+      // TODO get Authorization from user settings / see if there are auth/login flows
+      Authorization: "Bearer TODO"
     },
     body: JSON.stringify({
       inputs
