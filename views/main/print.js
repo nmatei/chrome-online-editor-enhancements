@@ -95,6 +95,9 @@ function rowHtml(line, source, target, style) {
   </tr>`;
 }
 
+/**
+ * addTableEvents - has ES5 as needs to run on old browsers
+ */
 function getPrintPage(rows, docTitle) {
   let page = `<html>
   <head>
@@ -176,7 +179,7 @@ function getPrintPage(rows, docTitle) {
 	  ${rows.join("")}
 	</table>
 	<script>
-    function addTableEvents(table, i) {
+    function addTableEvents(table, i) { 
       var prefix = window.location.pathname.replace(/([\\/])|(%20)/gi, "").toLowerCase();
       var storageKey = prefix + "-selected-row-";
       var storageRow = localStorage.getItem(storageKey + i);

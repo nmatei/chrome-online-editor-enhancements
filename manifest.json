@@ -9,10 +9,10 @@
   },
   "action": {},
   "permissions": ["activeTab", "storage", "clipboardWrite"],
-  "host_permissions": ["https://languagecloud.sdl.com/lc/t/*/projects/task/*/inbox", "https://ci-languagecloud.sdl.com/lc/t/*/projects/task/*/inbox"],
+  "host_permissions": ["https://languagecloud.sdl.com/lc/t/*/projects/task/*/inbox"],
   "content_scripts": [
     {
-      "matches": ["https://languagecloud.sdl.com/lc/t/*/projects/task/*/inbox", "https://ci-languagecloud.sdl.com/lc/t/*/projects/task/*/inbox"],
+      "matches": ["https://languagecloud.sdl.com/lc/t/*/projects/task/*/inbox"],
       "js": [
         "views/common/utilities.js",
         "views/tooltip/tooltip.js",
