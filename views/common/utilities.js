@@ -2,9 +2,10 @@
  *
  * @param {String} selector
  * @param {Number} timeout
+ * @param {Number} retryInterval
  * @returns {Promise<null | HTMLElement>}
  */
-function waitElement(selector, timeout = 30000) {
+function waitElement(selector, timeout = 30000, retryInterval = 100) {
   return new Promise((resolve, reject) => {
     let el = document.querySelector(selector);
     if (el) {
@@ -22,7 +23,15 @@ function waitElement(selector, timeout = 30000) {
         //reject("timeout");
         resolve(null);
       }
-    }, 100);
+    }, retryInterval);
+  });
+}
+
+async function sleep(timeout = 5000) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, timeout);
   });
 }
 
@@ -69,4 +78,26 @@ function execCopy(text, doc) {
       doc.body.removeChild(textarea);
     }
   }
+}
+
+function download(text, name, type) {
+  const anchor = document.createElement("a");
+  anchor.className = "download-js-link";
+  anchor.id = "download-html";
+  anchor.innerHTML = "downloading...";
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
+
+  const file = new Blob([text], { type: type });
+  anchor.href = URL.createObjectURL(file);
+  anchor.download = name;
+  anchor.click();
+  document.body.removeChild(anchor);
+}
+
+function maskElement(element) {
+  element.classList.add("extension-loading-mask");
+}
+function unmaskElement(element) {
+  element.classList.remove("extension-loading-mask");
 }

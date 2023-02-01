@@ -3,37 +3,39 @@ let targets = [];
 let rows = [];
 
 async function startPrint() {
-  const firstRow = getSegmentByIndex(1);
-  if (firstRow) {
-    firstRow.scrollIntoView();
-  } else {
-    // TODO not top yet...  but better
-    console.warn("scroll top");
-    document.querySelector(".ue-editable").scrollIntoView();
-  }
+  maskElement(document.body);
+  await editorScrollTop();
 
   sources = getSegments("source");
   targets = getSegments("target");
-  rows = sources.map((s, i) => {
-    const index = s.getAttribute("data-segment-index");
+  rows = mapRows(sources, targets);
+
+  await loadNextPage();
+  unmaskElement(document.body);
+}
+
+function mapRows(sources, targets) {
+  return sources.map((s, i) => {
+    const index = getSegmentIndex(s);
     const source = s.innerText;
     const target = targets[i].innerText;
     const style = s.firstChild.getAttribute("style");
     return rowHtml(index, source, target, style);
   });
-
-  loadNextPage();
 }
 
 /**
  *
  */
 async function loadNextPage() {
-  sources[sources.length - 1].scrollIntoView();
-
-  await waitNextPage();
-
-  const lastRowIndex = sources[sources.length - 1].getAttribute("data-segment-index");
+  const lastSegment = sources[sources.length - 1];
+  lastSegment.scrollIntoView();
+  const lastRowIndex = getSegmentIndex(lastSegment);
+  const nextSegment = await waitElement(getSegmentByIndexSelector(lastRowIndex + 1), 5000);
+  if (nextSegment) {
+    // wait until all rows are rendered and mask is removed
+    await sleep(2500);
+  }
 
   sources = getSegments("source");
   targets = getSegments("target");
@@ -43,7 +45,7 @@ async function loadNextPage() {
   sources.splice(0, lastIndex);
   targets.splice(0, lastIndex);
 
-  const pageRows = sources.map((s, i) => rowHtml(s.getAttribute("data-segment-index"), s.innerText, targets[i].innerText, s.firstChild.getAttribute("style")));
+  const pageRows = mapRows(sources, targets);
   rows = rows.concat(pageRows);
 
   //console.warn("pageRows", pageRows.length);
@@ -51,17 +53,8 @@ async function loadNextPage() {
   if (pageRows.length === 0) {
     docReady(rows);
   } else {
-    loadNextPage();
+    await loadNextPage();
   }
-}
-
-async function waitNextPage() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-      // TODO decrease 5000 to 200 and wait until loading is removed
-    }, 5000);
-  });
 }
 
 function increaseFont(html) {
@@ -82,8 +75,8 @@ function docReady(rows) {
 
   download(html, docTitle + ".html", "text/plain");
 
-  //var tab = window.open('', '_blank');
-  //tab.document.write(page);
+  // const tab = window.open("", "_blank");
+  // tab.document.write(html);
 }
 
 function rowHtml(line, source, target, style) {
@@ -99,7 +92,7 @@ function rowHtml(line, source, target, style) {
  * addTableEvents - has ES5 as needs to run on old browsers
  */
 function getPrintPage(rows, docTitle) {
-  let page = `<html>
+  return `<html>
   <head>
 	<title>${docTitle}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -214,21 +207,4 @@ function getPrintPage(rows, docTitle) {
 	</script>
   </body>
   </html>`;
-
-  return page;
-}
-
-function download(text, name, type) {
-  const anchor = document.createElement("a");
-  anchor.className = "download-js-link";
-  anchor.id = "download-html";
-  anchor.innerHTML = "downloading...";
-  anchor.style.display = "none";
-  document.body.appendChild(anchor);
-
-  const file = new Blob([text], { type: type });
-  anchor.href = URL.createObjectURL(file);
-  anchor.download = name;
-  anchor.click();
-  document.body.removeChild(anchor);
 }

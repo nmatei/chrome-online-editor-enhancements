@@ -12,3 +12,35 @@
   /* TODO how to pring tabs? */
   /*display: none;*/
 }
+
+.extension-loading-mask::before {
+  z-index: 99999;
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #00000040;
+}
+@keyframes mask-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+.extension-loading-mask::after {
+  content: "";
+  position: absolute;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent var(--baseColor) var(--baseColor);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  top: calc(50% - 18px);
+  left: calc(50% - 18px);
+  animation: 2s linear 0s normal none infinite running mask-spin;
+}

@@ -45,10 +45,7 @@ function getContextMenu(items) {
   const menu = createContextMenu("context-menu");
 
   const contentItems = items
-    .map(
-      (item, i) =>
-        `<button type="button" class="action-btn" data-idx="${i}" data-id="${item.itemId}" onmouseenter="this.setAttribute('data-authorization', window.Authorization)">${item.text}</button>`
-    )
+    .map((item, i) => `<button type="button" class="action-btn" data-idx="${i}" data-id="${item.itemId}">${item.text}</button>`)
     .join("");
   menu.innerHTML = `<div class="context-menu-layout">${contentItems}</div>`;
 
@@ -56,11 +53,6 @@ function getContextMenu(items) {
     e.stopPropagation();
     e.preventDefault();
     if (e.target.matches(".action-btn")) {
-      // console.warn("action", e.target.dataset.idx);
-      // const authorization = e.target.dataset.authorization;
-      // console.warn("authorization", authorization);
-      e.target.removeAttribute("data-authorization");
-
       const item = items[e.target.dataset.idx];
       item.handler && item.handler();
     }
