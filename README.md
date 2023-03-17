@@ -12,6 +12,12 @@ Some enhancements for **Online Editor** in **Trados** for https://languagecloud.
     - [x] 📩 Save as HTML
     - [x] Open *.html (resulted) and you can Print (as PDF) 
 
+## 🎞 Results
+
+![Added Menu](screens/added-menu.jpg)
+
+![HTML Output](screens/saved-html.jpg)
+
 ## ⚙ Setup Plugin as Developer
 
 - [x] **Download/Clone** this repo
